@@ -1,34 +1,36 @@
-# gflab 研究成果发布指南
+# Research Software Publishing Guide
 
-gflab 是实验室共同维护的论文代码、研究软件和可复现成果入口。成员可以自主建仓、邀请项目合作者和发布成果，不需要每次找组织 Owner 审批。以下约定用于减少重复工作，不设置统一的审批表或 CI 门槛。
+gflab provides a shared home for the laboratory's research code, scientific software, and reproducible research artifacts. Members can create repositories, add project collaborators, and publish their work independently. These conventions support efficient collaboration and durable research outputs without introducing a mandatory approval process or a uniform CI requirement.
 
-## 开始一个项目
+## Starting a Project
 
-使用 [research-template](https://github.com/gflab/research-template/generate)，Owner 选择 `gflab`；已有项目也可以直接创建仓库上传。以方法或软件名称命名，持续维护的软件不必每篇论文复制一个仓库。
+Create a repository from [research-template](https://github.com/gflab/research-template/generate), selecting `gflab` as the owner, or upload an existing project to a new repository. Prefer the method or software name as the repository name. A continuously maintained package generally belongs in one repository rather than a separate copy for each publication.
 
-按研究进度选择公开或私有。负责人直接给合作者 Write 权限；需要协助设置和发版的人可按需增加权限。小项目可直接提交，多人开发或需要讨论的改动使用 PR。模板可自由删改，不强制使用 Python、某个目录结构或特定 CI。
+Choose public or private visibility according to the stage of the work. Project maintainers can grant collaborators Write access directly and provide additional permissions where needed for repository management or releases. Direct commits are appropriate for routine work; use pull requests when discussion or review would be useful. Adapt or remove template components freely. No particular programming language, directory layout, or CI system is required.
 
-README 写清项目用途、主要维护人和接手联系人、安装与最小运行命令、数据和模型获取方式、许可证及维护状态。更新 `CITATION.cff` 为真实作者与项目信息；没有论文或 DOI 时不填虚构信息。
+Use professional academic English for default repository descriptions, documentation, and release notes. Describe the project's purpose, primary maintainer and maintenance successor, installation, minimal execution command, data and model access, license, and maintenance status. Update `CITATION.cff` with the actual project and author metadata; omit publication details and DOIs that are not yet available.
 
-## 论文发表时
+## Publishing a Paper
 
-1. 用一个干净环境运行 README 中的最小示例，记录依赖版本；说明论文哪些结果可复现、哪些受数据或硬件限制。
-2. 对实际使用的提交创建 tag 和 GitHub Release（例如 `v1.0.0`），写清对应论文、运行方式以及必要的模型和数据版本。论文引用这个固定版本，而不是只引用不断变化的 `main`。
-3. 需要软件 DOI 时将该仓库接入 Zenodo 并确认版本归档成功，把 DOI 补到 README 和引用信息；不要求所有项目都接入。
-4. 在实验室网站的论文页链接仓库，在仓库链接论文；代表性成果可置顶到组织主页。
+1. Run the documented minimal example in a clean environment and record dependency versions. Explain which results can be reproduced and identify limitations arising from restricted data or computational resources.
+2. Create a tag and GitHub Release, such as `v1.0.0`, for the commit used in the study. Describe the associated publication, execution procedure, and relevant data and model versions. Cite this fixed version rather than relying solely on the evolving `main` branch.
+3. When a software DOI is useful, connect the repository to Zenodo, verify that the version has been archived, and add its DOI to the README and citation metadata. Zenodo integration is optional.
+4. Link the repository from the publication page on the lab website and link the publication from the repository. Representative projects may be pinned to the organization profile.
 
-论文对应 tag 和 Release 保留原样，修正内容用新版本并说明差异。发表后的仓库避免删除、转移或改成私有；停止维护时标注并归档，保留原安装地址。人员离组前把维护工作交给接手人即可。
+Retain publication tags and releases unchanged. Publish corrections as new versions and explain the differences. Avoid deleting, transferring, or making published repositories private. When maintenance ends, document the status and archive the repository while preserving installation URLs. Arrange a maintenance handover before the responsible researcher leaves the project.
 
-## 发布软件包
+## Distributing Packages
 
-Python 用户优先沿用 PyPI，R 用户按项目情况使用 GitHub 安装、CRAN 或 Bioconductor；容器可用 `ghcr.io/gflab/<project>`。GitHub 仓库是共同源码入口，不要求所有包都迁到 GitHub Packages。
+Use the distribution channel that best serves the intended users: typically PyPI for Python, GitHub installation, CRAN, or Bioconductor for R, and `ghcr.io/gflab/<project>` for containers. GitHub serves as the shared source repository; packages do not need to move to GitHub Packages solely for consistency.
 
-组织已允许成员创建公开和私有 GitHub Packages，并保留包从源仓库继承访问权限的默认设置。新包要正确关联源仓库；首次公开发布后，用未登录环境检查安装或拉取是否可用。公开源码不代表包已自动公开，包的可见性需要实际核对。PyPI 等服务的维护者和发布授权需在各自平台配置。
+Members can create public and private GitHub Packages. The organization retains the default that packages inherit access from their source repository. Associate each package with its source repository and, after its first public release, verify installation or image retrieval without authentication where supported. Public source code does not automatically make a package public; verify package visibility explicitly. Configure maintainers and publishing authorization separately on external registries such as PyPI.
 
-模板工作流默认只读。实际发布时，仅在发布 job 中添加所需权限，例如 GHCR 的 `packages: write`、创建 Release 的 `contents: write`，或可信发布所需的 `id-token: write`。第三方 Actions 可以正常使用，不要求统一审批。包发布工作流按项目实际生态建立，不预置无效凭据或空发布任务。
+The template workflow uses read-only permissions. Grant only the permissions needed by an actual publishing job, such as `packages: write` for GHCR, `contents: write` for a GitHub Release, or `id-token: write` for trusted publishing. Third-party Actions may be used normally without a central approval process. Add publishing workflows when the project has selected its distribution channel.
 
-## 保留成果与日常使用
+## Licensing and Long-Term Access
 
-长期成果放在 Release、Zenodo 或适合的数据/模型平台；Actions 临时产物会过期，不能作为论文附件的唯一来源。大型数据和权重记录稳定地址、版本及必要的校验值。
+Lab open-source code and software packages use the Apache License, Version 2.0 (`Apache-2.0`) by default. Projects created from the template retain this license and update copyright attribution as appropriate. Keep license metadata consistent across the README, `CITATION.cff`, and package metadata. Preserve applicable third-party licenses and notices, and respect different requirements imposed by upstream code or dependencies. Specify data and model licenses separately.
 
-真实患者数据不上传 GitHub，包括私有仓库；提供公开、合成或合规授权的数据获取方式。代码许可证由项目实际权属和依赖决定，数据与模型单独说明授权。建议成员启用双重验证，但目前不将其设为组织使用门槛。
+Store durable research artifacts in GitHub Releases, Zenodo, or suitable data and model repositories. Actions artifacts expire and must not be the sole source of supplementary material. Record stable access links, versions, and checksums where needed for large datasets and model weights.
+
+Do not upload patient-level data to GitHub, including private repositories. Provide access instructions for public, synthetic, or appropriately authorized data instead. Members are encouraged to enable two-factor authentication; it is not currently a mandatory condition of organization membership.

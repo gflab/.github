@@ -38,5 +38,5 @@ review, institutional governance, and explicit human responsibility.
 ## Start a Project
 
 Lab members can [create a repository from our research template](https://github.com/gflab/research-template/generate)
-and follow the [lightweight publishing guide (Chinese)](https://github.com/gflab/.github/blob/main/PUBLISHING.md).
+and follow the [Research Software Publishing Guide](https://github.com/gflab/.github/blob/main/PUBLISHING.md).
 The template includes a runnable synthetic example and citation metadata; adapt it to your project.
